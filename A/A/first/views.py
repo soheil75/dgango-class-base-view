@@ -6,6 +6,8 @@ from .models import Todo
 
 from django.views.generic.list import ListView
 
+from django.views.generic.detail import DetailView
+
 # class Home(View):
 #     template_name = "first/home.html"
 #     context = {'name':'Soheil'}
@@ -21,8 +23,26 @@ from django.views.generic.list import ListView
 
 
 class Home(ListView):
-    model = Todo
-    context_object_name = 'todos'
-    template_name = 'first/home.html'
+    #model = Todo
+    context_object_name = 'todos' #object_list
+    template_name = 'first/home.html' #first/todo_list.html
     ordering = ['-created']
     #queryset = Todo.objects.all()
+    def get_queryset(self):
+        return Todo.objects.all()
+
+#class DetailTodo(DetailView):
+#     model = Todo
+#     slug_field = 'slug'
+#     slug_url_kwarg = 'myslug'
+    
+class DetailTodo(DetailView):
+    slug_field = 'slug'
+    slug_url_kwarg = 'myslug'
+
+    def get_queryset(self,**kwargs):
+        if self.request.user.is_authenticated:
+            return Todo.objects.filter(slug=self.kwargs['myslug'])
+        else:
+            return Todo.objects.none()
+

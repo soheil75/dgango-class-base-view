@@ -5,7 +5,7 @@
     <hr>
     <ul>
         {% for todo in todos %}
-        <li><p>{{ todo.title }}</p></li>
+        <li><a href="{% url 'first:detail_todo' todo.slug %}">{{ todo.title }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
