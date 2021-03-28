@@ -8,6 +8,13 @@ from django.views.generic.list import ListView
 
 from django.views.generic.detail import DetailView
 
+from django.views.generic.edit import FormView
+from .forms import TodoCreateForm
+from django.urls import reverse_lazy
+from django.utils.text import slugify
+from django.contrib import messages
+
+
 # class Home(View):
 #     template_name = "first/home.html"
 #     context = {'name':'Soheil'}
@@ -45,4 +52,19 @@ class DetailTodo(DetailView):
             return Todo.objects.filter(slug=self.kwargs['myslug'])
         else:
             return Todo.objects.none()
+
+
+class TodoCreate(FormView):
+    form_class = TodoCreateForm
+    template_name = 'first/todo_create.html'
+    success_url = reverse_lazy('first:home')
+
+    def form_valid(self,form):
+        self.create_todo(form.cleaned_data)
+        return super().form_valid(form)
+
+    def create_todo(self,data):
+        todo = Todo(title=data['title'],slug=slugify(data['title']))
+        todo.save()
+        messages.success(self.request,'your todo saved','success')
 
