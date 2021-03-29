@@ -104,6 +104,14 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_REDIRECT_URL = 'first:home'
 LOGOUT_REDIRECT_URL = 'first:home'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'soheilabdollahi75@gmail.com'
+EMAIL_HOST_PASSWORD = 'yobqodqkigwgmgao'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Soheil Abdollahi.co' 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
