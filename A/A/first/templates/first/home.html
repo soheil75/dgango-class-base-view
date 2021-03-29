@@ -5,7 +5,10 @@
     <hr>
     <ul>
         {% for todo in todos %}
-        <li><a href="{% url 'first:detail_todo' todo.slug %}">{{ todo.title }}</a></li>
+        <li class="mb-3">
+            <a class="btn" href="{% url 'first:detail_todo' todo.slug %}">{{ todo.title }}</a>
+            <a class="btn btn-warning" href="{% url 'first:delete_todo' todo.id %}">Delete</a>
+        </li>
         {% endfor %}
     </ul>
 {% endblock %}

@@ -14,7 +14,9 @@ from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.contrib import messages
 
-from django.views.generic import CreateView
+from django.views.generic.edit import CreateView
+
+from django.views.generic.edit import DeleteView
 
 # class Home(View):
 #     template_name = "first/home.html"
@@ -81,3 +83,9 @@ class TodoCreate(CreateView):
         todo.save()
         messages.success(self.request,'your todo saved','success')
         return super().form_valid(form)
+
+class DeleteTodo(DeleteView):
+    model = Todo
+    template_name = "first/todo_delete.html"
+    success_url = reverse_lazy('first:home')
+
