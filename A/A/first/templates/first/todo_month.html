@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul class="mt-3">
+    {% for todo in object_list %}
+    <li><h5>{{ todo }}</h5></li>
+    {% endfor %}
+</ul>
+{% endblock %}

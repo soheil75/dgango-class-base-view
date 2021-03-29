@@ -20,6 +20,12 @@ from django.views.generic.edit import DeleteView
 
 from django.views.generic.edit import UpdateView
 
+from django.views.generic.dates import MonthArchiveView
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+#from A.first import models
+
 # class Home(View):
 #     template_name = "first/home.html"
 #     context = {'name':'Soheil'}
@@ -48,16 +54,21 @@ class Home(ListView):
 #     slug_field = 'slug'
 #     slug_url_kwarg = 'myslug'
     
-class DetailTodo(DetailView):
+# class DetailTodo(DetailView):
+#     slug_field = 'slug'
+#     slug_url_kwarg = 'myslug'
+
+#     def get_queryset(self,**kwargs):
+#         if self.request.user.is_authenticated:
+#             return Todo.objects.filter(slug=self.kwargs['myslug'])
+#         else:
+#             return Todo.objects.none()
+
+
+class DetailTodo(LoginRequiredMixin,DetailView):
+    model = Todo
     slug_field = 'slug'
     slug_url_kwarg = 'myslug'
-
-    def get_queryset(self,**kwargs):
-        if self.request.user.is_authenticated:
-            return Todo.objects.filter(slug=self.kwargs['myslug'])
-        else:
-            return Todo.objects.none()
-
 
 # class TodoCreate(FormView):
 #     form_class = TodoCreateForm
@@ -96,5 +107,11 @@ class UpdateTodo(UpdateView):
     fields = ('title',)
     template_name = "first/todo_update.html"
     success_url = reverse_lazy('first:home')
+
+class MonthTodo(MonthArchiveView):
+    model = Todo
+    date_field = 'created'
+    month_format = '%m'
+    template_name = 'first/todo_month.html'
 
 
