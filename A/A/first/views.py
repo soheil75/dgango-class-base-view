@@ -18,6 +18,8 @@ from django.views.generic.edit import CreateView
 
 from django.views.generic.edit import DeleteView
 
+from django.views.generic.edit import UpdateView
+
 # class Home(View):
 #     template_name = "first/home.html"
 #     context = {'name':'Soheil'}
@@ -88,4 +90,11 @@ class DeleteTodo(DeleteView):
     model = Todo
     template_name = "first/todo_delete.html"
     success_url = reverse_lazy('first:home')
+
+class UpdateTodo(UpdateView):
+    model = Todo
+    fields = ('title',)
+    template_name = "first/todo_update.html"
+    success_url = reverse_lazy('first:home')
+
 

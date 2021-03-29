@@ -7,6 +7,7 @@
         {% for todo in todos %}
         <li class="mb-3">
             <a class="btn" href="{% url 'first:detail_todo' todo.slug %}">{{ todo.title }}</a>
+            <a class="btn btn-info mx-3" href="{% url 'first:update_todo' todo.id %}">Update</a>
             <a class="btn btn-warning" href="{% url 'first:delete_todo' todo.id %}">Delete</a>
         </li>
         {% endfor %}
