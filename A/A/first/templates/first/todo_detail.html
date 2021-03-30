@@ -3,4 +3,15 @@
 {% block content %}
     <small>{{ object.created }}</small>
     <h2>{{ object.title }}</h2>
+    <hr>
+    <form action="" method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form }}
+        <button class="btn btn-dark" type="submit">submit</button>
+    </form>
+    <hr>
+    {% for cmt in object.tcomments.all %}
+        <small>{{ cmt.name }}</small>
+        <p>{{ cmt.body }}</p>
+    {% endfor %}
 {% endblock %}

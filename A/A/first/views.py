@@ -2,7 +2,7 @@ from django.shortcuts import render
 #from django.views import View
 
 from django.views.generic.base import TemplateView
-from .models import Todo
+from .models import Comment, Todo
 
 from django.views.generic.list import ListView
 
@@ -10,7 +10,7 @@ from django.views.generic.detail import DetailView
 
 from django.views.generic.edit import FormView
 from .forms import TodoCreateForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.utils.text import slugify
 from django.contrib import messages
 
@@ -23,6 +23,9 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.dates import MonthArchiveView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.views.generic.edit import FormMixin
+from .forms import TodoCommentForm
 
 #from A.first import models
 
@@ -65,10 +68,22 @@ class Home(ListView):
 #             return Todo.objects.none()
 
 
-class DetailTodo(LoginRequiredMixin,DetailView):
+class DetailTodo(LoginRequiredMixin,FormMixin,DetailView):
     model = Todo
+    form_class = TodoCommentForm
     slug_field = 'slug'
     slug_url_kwarg = 'myslug'
+
+    def get_success_url(self):
+        return reverse('first:detail_todo',kwargs={'myslug':self.object.slug})
+
+    def post(self,request,*args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            comment = Comment(todo = self.object,name=form.cleaned_data['name'],body=form.cleaned_data['body'])
+            comment.save()
+        return super().form_valid(form)
 
 # class TodoCreate(FormView):
 #     form_class = TodoCreateForm
